@@ -1,0 +1,37 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ product.name }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-4xl mx-auto py-8">
+    <div class="bg-white p-6 rounded shadow">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="col-span-1">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-64 object-cover rounded">
+          {% else %}
+            <div class="w-full h-64 bg-gray-200 rounded flex items-center justify-center">No Image</div>
+          {% endif %}
+        </div>
+        <div class="col-span-2">
+          <h1 class="text-2xl font-bold">{{ product.name }}</h1>
+          <p class="text-sm text-gray-600">Категория: {{ product.category.name }}</p>
+          <p class="mt-4">{{ product.description }}</p>
+          <p class="mt-4 text-xl font-semibold">{{ product.price }} ₸</p>
+
+          <form action="{% url 'shop:cart_add' product_id=product.id %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <button class="bg-green-600 text-white px-4 py-2 rounded">Добавить в корзину</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
